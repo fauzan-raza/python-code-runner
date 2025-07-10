@@ -7,8 +7,9 @@ FROM python:3.9-slim
 RUN apt-get update && apt-get install -y \
     build-essential \
     libprotobuf32 \
+    libnl-route-3-200 \
     protobuf-compiler \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/
 
 # Copy the nsjail binary from the previous stage
 COPY --from=nsjail /usr/bin/nsjail /usr/local/bin/nsjail
