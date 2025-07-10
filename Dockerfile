@@ -1,25 +1,13 @@
 FROM python:3.9-slim
 
-# Install build dependencies and tools needed for nsjail and python packages
 RUN apt-get update && apt-get install -y \
-    git \
+    curl \
     build-essential \
-    bison \
-    flex \
-    protobuf-compiler \
-    pkg-config \
-    libseccomp-dev \
-    libprotobuf-dev \
-    libcap-dev \
-    libselinux1-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone and build nsjail
-RUN git clone https://github.com/google/nsjail.git /nsjail \
-    && cd /nsjail \
-    && make
-
-ENV PATH="/nsjail:${PATH}"
+# Download prebuilt nsjail 3.4 binary and make executable
+RUN curl -L https://github.com/google/nsjail/releases/download/3.4/nsjail-3.4-linux-amd64 -o /usr/local/bin/nsjail \
+    && chmod +x /usr/local/bin/nsjail
 
 WORKDIR /app
 
