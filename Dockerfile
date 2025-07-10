@@ -1,16 +1,15 @@
+# Stage 1: Extract nsjail from Windmill's image
+FROM ghcr.io/windmill-labs/windmill-ee-nsjail:5c4b6e7 as nsjail
+
+# Stage 2: My Python app
 FROM python:3.9-slim
 
 RUN apt-get update && apt-get install -y \
-    curl \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Download prebuilt nsjail 3.4 binary and make executable
-RUN curl -L --fail https://github.com/google/nsjail/releases/download/3.4/nsjail-3.4 \
-    -o /usr/local/bin/nsjail \
-    && chmod +x /usr/local/bin/nsjail \
-    && file /usr/local/bin/nsjail \
-    && ldd /usr/local/bin/nsjail || echo "static or not dynamically linked"
+# Copy the nsjail binary from the previous stage
+COPY --from=nsjail /usr/bin/nsjail /usr/local/bin/nsjail
 
 WORKDIR /app
 
