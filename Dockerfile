@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Download prebuilt nsjail 3.4 binary and make executable
-RUN curl -L https://github.com/google/nsjail/releases/download/3.4/nsjail-3.4-linux-amd64 -o /usr/local/bin/nsjail \
+RUN curl -L --fail https://github.com/google/nsjail/releases/download/3.4/nsjail-3.4 \
+    -o /usr/local/bin/nsjail \
     && chmod +x /usr/local/bin/nsjail \
     && file /usr/local/bin/nsjail \
     && ldd /usr/local/bin/nsjail || echo "static or not dynamically linked"
