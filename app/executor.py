@@ -3,9 +3,8 @@ import os
 import tempfile
 import subprocess
 import json
-import uuid
 
-NSJAIL_CONFIG = "/app/nsjail.cfg"  # path inside Docker container
+NSJAIL_CONFIG = "/app/nsjail.cfg"
 WRAPPER_CODE = """
 if __name__ == "__main__":
     import json
